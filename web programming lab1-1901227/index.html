@@ -1,0 +1,78 @@
+<!-- Title: Web Programming Lab 1 
+Tutor: C.Anuli 
+Name: Tyrise Baker 
+ID number: 1901227 
+Date: September 27,2025  -->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Profile – Tyrise Baker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <div class="logo">🌐</div>
+      <h1>Tyrise Baker</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#hobbies">Hobbies</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ABOUT ME -->
+  <section id="about">
+    <div class="container">
+      <h2>About Me</h2>
+      <img src="Profilepic.JPG" alt="Profile photo" class="profile-img">
+      <p>Hello! My name is Tyrise Baker. I am a Computer Networking & Security student at the University of Technology, Jamaica. I enjoy working on cybersecurity, DevOps, and building modern web applications.</p>
+    </div>
+  </section>
+
+  <!-- HOBBIES -->
+  <section id="hobbies">
+    <div class="container">
+      <h2>Hobbies</h2>
+      <ul>
+        <li>💻 Web Development Projects</li>
+        <li>🎮 Gaming (Call of Duty, FIFA)</li>
+        <li>📚 Learning new tech & certifications</li>
+        <li>🌍 Exploring Jamaican culture and travel</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>If you’d like to connect, feel free to reach out!</p>
+      <p>Email: <a href="mailto:bakertyrise502@gmail.com">bakertyrise502@gmail.com</a></p>
+      <p>Socials:
+        <a href="https://github.com/nvtorious" target="_blank">GitHub</a> |
+        <a href="https://www.linkedin.com/in/tyrise-baker-2b87471b0/" target="_blank">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> Tyrise Baker. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Auto year update
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
