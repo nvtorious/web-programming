@@ -1,0 +1,347 @@
+<!--
+Module: Web Programming Lab 3
+Name: Tyrise Baker
+ID#:1901227
+Tutor: Miss Anuli
+Date: November 14,2025
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Rent receipt</title>
+</head>
+<body>
+
+    <main class="container">
+        <section class="form-panel">
+            <h1>Generate Rent Receipt</h1>
+            <form id="receiptForm" class="card">
+                <div class="grid g-2">
+                    <div class="row">
+                      <label for="tenantName">Tenant Name *</label>
+                      <input id="tenantName" name="tenantName" type="text" required maxlength="60">
+                    </div>
+                    <div class="row">
+                        <label for="landlordName">Landlord Name *</label>
+                        <input id="Landlord" name="landlordName" type="text" required maxlength="60">
+                      </div>
+                      <div class="row">
+                        <label for="Email">Email *</label>
+                        <input id="Email" name="Email" type="text" required maxlength="60" placeholder="tenant@email.com">
+                      </div>
+                    <div class="row">
+                      <label for="Phone">Phone</label>
+                      <input id="Phone" name="Phone" type="tel" required maxlength="12" placeholder value="+1 (___) ___-____">
+                    </div>
+                </div>
+                <div class="grid g-2">
+                    <div class="row">
+                      <label for="property">Property Address</label>
+                      <input id="property" name="property" type="text" required maxlength="120">
+                    </div>
+                    <div class="row">
+                      <label for="unit">Unit</label>
+                      <input id="unit" name="unit" type="text" maxlength="10">
+                    </div>
+                    <div class="row">
+                        <label for="amount">Amount (USD)</label>
+                        <input id="amount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" required>
+                    </div>
+                    <div class="row">
+                        <label for="date">Payment Date</label>
+                        <input id="date" name="date" type="date" required >
+                    </div>
+                </div>
+                <div class="grid g-3">
+                    <div class="row">
+                      <label for="periodFrom">Rent Period From</label>
+                      <input id="periodFrom" name="periodFrom" type="date" required >
+                    </div>
+                    <div class="row">
+                      <label for="periodTo">Rent Period To</label>
+                      <input id="periodTo" name="periodTo" type="date" required >
+                    </div>
+                    <div class="row">
+                    <label for="method">Payment Method</label>
+                    <select id="method" name="method" required placeholder="mm/dd/yyyy">
+                        <option value="Cash" selected>Cash</option>
+                        <option>Card</option>
+                        <option>Bank Transfer</option>
+                        <option>Cheque</option>
+                        <option>Online</option>
+                    </select>
+                    </div>
+                    <div class="row">
+                        <label for="receiptNo">Receipt ID</label>
+                        <input id="receiptNo" name="receiptNo" type="text" required maxlength="12" pattern="[A-Za-z0-9-]{3,12}" placeholder="RCPT-001">
+                    </div>
+                </div>
+                  <div class="row">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" maxlength="240"></textarea>
+                  </div>
+                  <div class="row">
+                    <label for="notes">Signature</label>
+                    <textarea id="Signature" name="Signature" maxlength="240" placeholder>Digital/Typed Signature</textarea>
+                  </div>
+                  <div class="btns">
+                    <button type="button" class="btn" data-action="generate"><span class="material-icons">receipt_long</span>GENERATE RECEIPT</button>
+                    <button type="button" class="btn" data-action="print"><span class="material-icons">print</span>PRINT</button>
+                    <button type="button" class="btn" data-action="download"><span class="material-icons">download</span>SAVE</button>
+                  </div>
+            </form>
+        </section>
+
+        <aside class="preview-panel" aria-live="polite">
+
+          <div id="receiptCard" class="preview">
+            <section class="receipt" style="display:none;">
+              <h3>RECEIPT</h3>
+              <div class="hr"></div>
+              <div class="rowline"><span class="label">Tenant:</span><span class="value" id="rTenant">—</span></div>
+              <div class="rowline"><span class="label">Landlord:</span><span class="value" id="rLandlord">—</span></div>
+              <div class="rowline"><span class="label">Address:</span><span class="value" id="rAddress">—</span></div>
+              <div class="rowline"><span class="label">Amount (USD):</span><span class="value" id="rAmount">—</span></div>
+              <div class="rowline"><span class="label">Payment Method:</span><span class="value" id="rMethod">—</span></div>
+              <div class="rowline"><span class="label">Date:</span><span class="value" id="rDate">—</span></div>
+              <div class="rowline"><span class="label">Receipt No:</span><span class="value" id="rNo">—</span></div>
+            </section>
+          </div>
+
+          <!-- NEW: Receipt History Section -->
+          <section class="history-panel" style="margin-top:20px;">
+            <h2 style="font-size:16px; margin-bottom:6px;">Receipt History</h2>
+            <p style="font-size: 12px; color:#555; margin-bottom:8px;">
+              Saved receipts are loaded from localStorage when the page opens.
+            </p>
+            <div id="receiptHistory"></div>
+            <button type="button" class="btn" id="clearAllReceipts" style="margin-top:10px;">
+              <span class="material-icons">delete_sweep</span>DELETE ALL
+            </button>
+          </section>
+
+        </aside>
+    </main>
+
+<script>
+  // ====== DATE DEFAULTS ======
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('date').value = today;
+  document.getElementById('periodFrom').value = today;
+  document.getElementById('periodTo').value = today;
+
+  // ====== LOCAL STORAGE + ARRAYS + OBJECTS ======
+  const STORAGE_KEY = "rentReceipts";
+
+  // Load from localStorage
+  function loadReceiptsFromStorage() {
+    const json = localStorage.getItem(STORAGE_KEY);
+    return json ? JSON.parse(json) : [];
+  }
+
+  // Save to localStorage
+  function saveReceiptsToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(receipts));
+  }
+
+  // Global array of receipt OBJECTS
+  let receipts = loadReceiptsFromStorage();
+
+  // Build a receipt object from form
+  function buildReceiptFromForm() {
+    return {
+      tenantName: document.getElementById('tenantName').value,
+      landlordName: document.getElementById('Landlord').value,
+      email: document.getElementById('Email').value,
+      phone: document.getElementById('Phone').value,
+      property: document.getElementById('property').value,
+      unit: document.getElementById('unit').value,
+      amount: Number(document.getElementById('amount').value || 0),
+      date: document.getElementById('date').value,
+      periodFrom: document.getElementById('periodFrom').value,
+      periodTo: document.getElementById('periodTo').value,
+      method: document.getElementById('method').value,
+      receiptNo: document.getElementById('receiptNo').value,
+      notes: document.getElementById('notes').value,
+      signature: document.getElementById('Signature').value,
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  // ====== HISTORY RENDERING ======
+  function renderHistory() {
+    const historyDiv = document.getElementById('receiptHistory');
+    historyDiv.innerHTML = "";
+
+    if (!receipts.length) {
+      historyDiv.innerHTML = '<p style="font-size:13px; color:#777;">No saved receipts yet.</p>';
+      return;
+    }
+
+    // Example of array method: reduce
+    const totalAmount = receipts.reduce((sum, r) => sum + (r.amount || 0), 0);
+
+    const summary = document.createElement('p');
+    summary.style.fontSize = "13px";
+    summary.style.marginBottom = "8px";
+    summary.textContent = `You have ${receipts.length} saved receipt(s). Total collected: $${totalAmount.toFixed(2)}`;
+    historyDiv.appendChild(summary);
+
+    const list = document.createElement('div');
+    list.className = "history-list";
+
+    // Example of array method: forEach
+    receipts.forEach((r, index) => {
+      const item = document.createElement('div');
+      item.className = "history-item";
+      item.style.border = "1px solid #000";
+      item.style.borderRadius = "8px";
+      item.style.padding = "8px 10px";
+      item.style.marginBottom = "8px";
+      item.style.background = "#fff";
+
+      item.innerHTML = `
+        <div style="font-size:13px; font-weight:600;">
+          ${r.tenantName || "Unknown Tenant"} — ${r.property || "No address"}
+        </div>
+        <div style="font-size:12px; color:#444; margin:4px 0;">
+          Amount: $${(r.amount || 0).toFixed(2)} | Date: ${r.date || "n/a"} | Receipt #: ${r.receiptNo || "n/a"}
+        </div>
+        <button type="button" class="btn btn-small" data-index="${index}">
+          <span class="material-icons" style="font-size:16px;">delete</span>DELETE
+        </button>
+        <button type="button" class="btn btn-small" data-show="${index}">
+          <span class="material-icons" style="font-size:16px;">visibility</span>SHOW
+        </button>
+      `;
+      list.appendChild(item);
+    });
+
+    historyDiv.appendChild(list);
+  }
+
+  // Show one receipt in preview
+  function showReceiptInPreview(receipt) {
+    document.getElementById('rTenant').textContent = receipt.tenantName || '—';
+    document.getElementById('rLandlord').textContent = receipt.landlordName || '—';
+    document.getElementById('rAddress').textContent = receipt.property || '—';
+    document.getElementById('rAmount').textContent = (receipt.amount || 0).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    document.getElementById('rMethod').textContent = receipt.method || '—';
+    document.getElementById('rDate').textContent = receipt.date || '—';
+    document.getElementById('rNo').textContent = receipt.receiptNo || '—';
+    document.querySelector('.receipt').style.display = 'block';
+  }
+
+  // ====== BUTTON HANDLERS ======
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.action;
+      const form = document.getElementById('receiptForm');
+
+      if (action === 'generate') {
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        // Update preview
+        document.getElementById('rTenant').textContent =
+          document.getElementById('tenantName').value || '—';
+        document.getElementById('rLandlord').textContent =
+          document.getElementById('Landlord').value || '—';
+        document.getElementById('rAddress').textContent =
+          document.getElementById('property').value || '—';
+        document.getElementById('rAmount').textContent =
+          Number(document.getElementById('amount').value || 0).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+        document.getElementById('rMethod').textContent =
+          document.getElementById('method').value || '—';
+        document.getElementById('rDate').textContent =
+          document.getElementById('date').value || '—';
+        document.getElementById('rNo').textContent =
+          document.getElementById('receiptNo').value || '—';
+
+        document.querySelector('.receipt').style.display = 'block';
+      }
+
+      if (action === 'print') {
+        window.print();
+      }
+
+      // SAVE = store object in localStorage (history)
+      if (action === 'download') {
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const newReceipt = buildReceiptFromForm();
+
+        // push into array
+        receipts.push(newReceipt);
+
+        // array method: sort (newest first)
+        receipts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        saveReceiptsToStorage();
+        renderHistory();
+
+        alert("Receipt saved to history (localStorage).");
+      }
+    });
+  });
+
+  // ====== DELETE ONE / SHOW ONE (EVENT DELEGATION) ======
+  document.getElementById('receiptHistory').addEventListener('click', (event) => {
+    const deleteBtn = event.target.closest('[data-index]');
+    const showBtn = event.target.closest('[data-show]');
+
+    // Delete single receipt
+    if (deleteBtn) {
+      const index = Number(deleteBtn.getAttribute('data-index'));
+      if (!Number.isNaN(index)) {
+        receipts.splice(index, 1);
+        saveReceiptsToStorage();
+        renderHistory();
+      }
+    }
+
+    // Show single receipt
+    if (showBtn) {
+      const index = Number(showBtn.getAttribute('data-show'));
+      if (!Number.isNaN(index) && receipts[index]) {
+        showReceiptInPreview(receipts[index]);
+      }
+    }
+  });
+
+  // ====== DELETE ALL RECEIPTS ======
+  document.getElementById('clearAllReceipts').addEventListener('click', () => {
+    if (!receipts.length) {
+      alert("No receipts to delete.");
+      return;
+    }
+
+    if (confirm("Are you sure you want to delete ALL saved receipts?")) {
+      receipts = [];
+      localStorage.removeItem(STORAGE_KEY);
+      renderHistory();
+    }
+  });
+
+  // ====== ON PAGE LOAD ======
+  renderHistory();
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Davinchi Dezigns – Order Flyer Printing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <div class="nav-logo">
+          <div class="nav-logo-inner">D</div>
+        </div>
+        <div class="nav-brand-text">
+          <span>Davinchi Dezigns</span>
+          <span>Flyer Templates &amp; Printing • Negril</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="templates.html">Templates</a>
+        <a href="order.html" class="active">Order Print</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT: TEMPLATES -->
+      <section>
+        <div class="section-header">
+          <h1 class="section-title">Choose a flyer style</h1>
+          <span class="section-tag">tap to select</span>
+        </div>
+        <p class="section-text">
+          Tap a template that matches your event. You can still send your own
+          design – just choose “Custom design” on the right.
+        </p>
+
+        <div class="templates-grid" style="margin-top: 16px;">
+            <!-- Party / Dancehall -->
+            <button class="template-card" type="button" data-template="Dancehall Party">
+              <div class="template-thumb">
+                <img src="images/negril-party-night.jpg" alt="Negril Party Night Flyer" />
+                <span class="template-tag">Party / Dancehall</span>
+              </div>
+              <div class="template-name">Negril Party Night</div>
+              <p class="template-desc">
+                High-energy layout for club events, beach parties and nights out.
+              </p>
+            </button>
+          
+            <!-- Business / Grand Opening -->
+            <button
+              class="template-card"
+              type="button"
+              data-template="Grand Opening"
+            >
+              <div class="template-thumb">
+                <img src="images/SQR1FLYER.jpg" alt="Grand Opening Sale Flyer" />
+                <span class="template-tag">Business</span>
+              </div>
+              <div class="template-name">Grand Opening Sale</div>
+              <p class="template-desc">
+                Clean promo design for shops, salons, restaurants and services.
+              </p>
+            </button>
+          
+            <!-- Church / Community -->
+            <button
+              class="template-card"
+              type="button"
+              data-template="Church Event"
+            >
+              <div class="template-thumb">
+                <img src="images/church-flyer.jpg" alt="Community / Church Flyer" />
+                <span class="template-tag">Church / Community</span>
+              </div>
+              <div class="template-name">Community / Church Flyer</div>
+              <p class="template-desc">
+                Soft but bold layout for services, youth events and fundraisers.
+              </p>
+            </button>
+          
+            <!-- School / Club -->
+            <button
+              class="template-card"
+              type="button"
+              data-template="School Event"
+            >
+              <div class="template-thumb">
+                <img src="images/school-club-poster.jpg" alt="School / Club Poster" />
+                <span class="template-tag">School / Club</span>
+              </div>
+              <div class="template-name">School / Club Poster</div>
+              <p class="template-desc">
+                Great for student council, club meetings, concerts and sports.
+              </p>
+            </button>
+          </div>
+          
+          <p class="muted" style="margin-top: 12px;">
+            Selected template: <span id="selected-template-label">None yet</span>
+          </p>
+      </section>
+
+      <!-- RIGHT: ORDER FORM -->
+      <aside class="panel">
+        <header class="panel-header" style="margin-bottom: 8px;">
+          <div>
+            <h2 class="panel-title">Flyer &amp; printing order form</h2>
+            <p class="panel-subtitle">
+              Fill this out to request a quote or start your order.
+            </p>
+          </div>
+          <span class="pill">Quote first • Pay after</span>
+        </header>
+
+        <form class="form" id="order-form">
+          <div class="form-row">
+            <div class="field">
+              <label for="name">Full name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="e.g. Tyrise Baker"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="phone">Phone / WhatsApp</label>
+              <input
+                id="phone"
+                name="phone"
+                type="text"
+                placeholder="e.g. (876) 555-1234"
+              />
+              <div class="field-note">
+                You can put your WhatsApp number here for easy responses.
+              </div>
+            </div>
+            <div class="field">
+              <label for="template">Selected template</label>
+              <input
+                id="template"
+                name="template"
+                type="text"
+                placeholder="Tap a template or type Custom design"
+              />
+              <div class="field-note">
+                Type “Custom design” if you already have your own artwork.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="size">Flyer size</label>
+              <select id="size" name="size">
+                <option value="A5">A5 (Half Letter)</option>
+                <option value="A4">A4 (Letter size)</option>
+                <option value="Custom">Custom size</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quantity">Quantity</label>
+              <input
+                id="quantity"
+                name="quantity"
+                type="number"
+                min="25"
+                step="25"
+                placeholder="e.g. 100"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="details">Event or promo details</label>
+            <textarea
+              id="details"
+              name="details"
+              placeholder="Event name, date, time, venue in Negril or other area, dress code, ticket price, colours, any extra text you want..."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="file">Design / logo file (optional)</label>
+            <input
+              id="file"
+              name="file"
+              type="file"
+              accept=".jpg,.jpeg,.png,.pdf"
+            />
+            <div class="field-note">
+              Upload your logo, photos, or flyer mockup. You can mention extra
+              files in the details box.
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <p class="form-status">
+              Davinchi Dezigns will message you with a
+              <span>preview &amp; final price</span> before printing.
+            </p>
+            <button class="btn-primary" type="submit">
+              Send order request
+            </button>
+          </div>
+        </form>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> Davinchi Dezigns. Negril, Jamaica.</span>
+      <span>Flyer design • Templates • Printing</span>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
